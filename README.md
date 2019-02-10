@@ -19,12 +19,12 @@ This is all enabled by the SmartConfig code in the ESP32 libraries.
 
 ## Supported Android and iOS configuration applications
 
-Espressif provides source code to (Android)[https://github.com/EspressifApp/EsptouchForAndroid] and (iOS apps)[https://github.com/EspressifApp/EsptouchForIOS] you can configure for your product.
+Espressif provides source code to [Android](https://github.com/EspressifApp/EsptouchForAndroid) and [iOS apps](https://github.com/EspressifApp/EsptouchForIOS) you can configure for your product.
 However, for early development/hobbyists some kind souls out on the internet have already
 built suitable apps and placed them in the appstore.  
 
-* For Android I recommend (this one)[https://play.google.com/store/apps/details?id=com.iotmaker&rdid=com.iotmaker].
-* For iOS I've been told (this one)[https://itunes.apple.com/us/app/espressif-esptouch/id1071176700?mt=8] works,
+* For Android I recommend [this one](https://play.google.com/store/apps/details?id=com.iotmaker&rdid=com.iotmaker).
+* For iOS I've been told [this one](https://itunes.apple.com/us/app/espressif-esptouch/id1071176700?mt=8) works,
 but I have not tested it.  Please add a github issue if it works/doesn't for you.
 
 # Installation
