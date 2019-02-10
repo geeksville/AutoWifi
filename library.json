@@ -1,0 +1,22 @@
+{
+  "name": "AutoWifi",
+  "keywords": "esp32, wifi",
+  "description": "A small/efficient RTSP server for ESP32 and other micros",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/geeksville/AutoWifi.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Kevin Hester",
+      "email": "kevinh@geeksville.com",
+      "url": "https://github.com/geeksville",
+      "maintainer": true
+    }
+  ],
+  "version": "0.1.0",
+  "frameworks": "arduino",
+  "platforms": "espressif32"
+}
