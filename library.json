@@ -1,7 +1,7 @@
 {
   "name": "AutoWifi",
-  "keywords": "esp32, wifi",
-  "description": "A small/efficient RTSP server for ESP32 and other micros",
+  "keywords": "esp32, wifi, SmartConfig",
+  "description": "Making ESP32 wifi setup trivial with SmartConfig Android/iOS helper apps. 5 lines of code and no more hardcoded keys.",
   "repository":
   {
     "type": "git",
