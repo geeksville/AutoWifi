@@ -45,6 +45,24 @@ If you want to show the user the device is in SmartConfig mode call isProvisione
 If you want to reset the provisioning (i.e. 'factory reset') call resetProvisioning().  Wifi settings are stored
 in a portion of the 'EEPROM' preferences.
 
+A complete example including support for a factory reset button looks more like this:
+```
+AutoWifi a;
+
+#ifdef FACTORYRESET_BUTTON
+pinMode(FACTORYRESET_BUTTON, INPUT);
+if(!digitalRead(FACTORYRESET_BUTTON))     // 1 means not pressed
+    a.resetProvisioning();
+#endif
+
+if(!a.isProvisioned())
+    lcdMessage("Setup wifi!");
+else
+    lcdMessage(String("join ") + a.getSSID());
+
+a.startWifi();
+```
+
 # Reporting issues
 
 Issues and pull requests are happily accepted, please use github.
