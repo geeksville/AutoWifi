@@ -17,6 +17,7 @@
 class AutoWifi {
     String ssid;
     String password;
+    bool readPrefs;
 
 public:
     AutoWifi();
@@ -43,6 +44,12 @@ public:
        Call this if the user presses your 'completely reset this device' button.
      */
     void resetProvisioning();
+
+    /**
+       Call this from your loop() function occasionally.  If we have lost our wifi connection it
+       will attemp to reconnect
+     */
+    void reconnect();
 
     String getSSID() {
         return ssid;
