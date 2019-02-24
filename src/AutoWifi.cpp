@@ -75,6 +75,8 @@ void AutoWifi::startWifi()
             if (WiFi.status() == WL_CONNECTED)
             {
                 Serial.printf("Using factory wifi!\n");
+                ssid = WiFi.SSID(); // this only updates the inram copies for this session (which is what we want)
+                password = WiFi.psk();
                 return;
             }
         }
