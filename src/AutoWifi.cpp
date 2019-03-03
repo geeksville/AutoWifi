@@ -84,7 +84,8 @@ bool AutoWifi::startWifi(uint32_t timeLimitMsec)
     WiFi.disconnect();
 #endif
 
-    while (millis() - start < timeLimitMsec)
+    bool success = false;
+    while (!success && millis() - start < timeLimitMsec)
     {
         Serial.println("Starting SmartConfig.");
         WiFi.beginSmartConfig();
@@ -107,9 +108,9 @@ bool AutoWifi::startWifi(uint32_t timeLimitMsec)
             delay(500);
             Serial.print(".");
         }
+        success = WiFi.status() == WL_CONNECTED;
     }
 
-    bool success = WiFi.status() != WL_CONNECTED;
     if (success)
     {
         Serial.println("Success, saving preferences");
