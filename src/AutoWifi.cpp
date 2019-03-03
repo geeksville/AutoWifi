@@ -54,41 +54,44 @@ void AutoWifi::reconnect()
 
    Otherwise stay in smart config mode until the user has provisioned wifi.
  */
-void AutoWifi::startWifi()
+bool AutoWifi::startWifi(uint32_t timeLimitMsec)
 {
     if (isProvisioned())
     {
         reconnect();
+        return true;
     }
-    else
-    {
-        //Init WiFi as Station, start SmartConfig
-        WiFi.mode(WIFI_AP_STA);
+
+    //Init WiFi as Station, start SmartConfig
+    WiFi.mode(WIFI_AP_STA);
+
+    uint32_t start = millis(); // Wait a bit in hopes we can connect
 
 #ifdef FACTORY_WIFI_SSID
-        // Serial.printf("First trying factory wifi\n");
-        WiFi.begin(TOSTRING(FACTORY_WIFI_SSID), TOSTRING(FACTORY_WIFI_PASSWORD));
-        uint32_t start = millis(); // Wait a bit in hopes we can connect
-        while (millis() - start < 5000)
+    // Serial.printf("First trying factory wifi\n");
+    WiFi.begin(TOSTRING(FACTORY_WIFI_SSID), TOSTRING(FACTORY_WIFI_PASSWORD));
+    while (millis() - start < 5000)
+    {
+        delay(100);
+        if (WiFi.status() == WL_CONNECTED)
         {
-            delay(100);
-            if (WiFi.status() == WL_CONNECTED)
-            {
-                Serial.printf("Using factory wifi!\n");
-                ssid = WiFi.SSID(); // this only updates the inram copies for this session (which is what we want)
-                password = WiFi.psk();
-                return;
-            }
+            Serial.printf("Using factory wifi!\n");
+            ssid = WiFi.SSID(); // this only updates the inram copies for this session (which is what we want)
+            password = WiFi.psk();
+            return true;
         }
-        WiFi.disconnect();
+    }
+    WiFi.disconnect();
 #endif
 
+    while (millis() - start < timeLimitMsec)
+    {
         Serial.println("Starting SmartConfig.");
         WiFi.beginSmartConfig();
 
         //Wait for SmartConfig packet from mobile
         Serial.println("Waiting for SmartConfig.");
-        while (!WiFi.smartConfigDone())
+        while (!WiFi.smartConfigDone() && millis() - start < timeLimitMsec)
         {
             delay(500);
             Serial.print(".");
@@ -98,6 +101,20 @@ void AutoWifi::startWifi()
         password = WiFi.psk();
         Serial.printf("SmartConfig ssid: %s\n", ssid.c_str());
 
+        Serial.println("Waiting for WiFi to connect");
+        while (WiFi.status() != WL_CONNECTED && millis() - start < timeLimitMsec)
+        {
+            delay(500);
+            Serial.print(".");
+        }
+    }
+
+    bool success = WiFi.status() != WL_CONNECTED;
+    if (success)
+    {
+        Serial.println("Success, saving preferences");
+
+        // We _only_ save our wifi prefs if we can connect to the wifi.  Just in case the client sent a shit setting
         Preferences p;
         p.begin("AutoWifi", false);
 
@@ -107,6 +124,8 @@ void AutoWifi::startWifi()
         // Close the Preferences
         p.end();
     }
+
+    return success;
 }
 
 /**

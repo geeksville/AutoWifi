@@ -14,44 +14,48 @@
    Copyright 2019 S. Kevin Hester-Chow, kevinh@geeksville.com, MIT License
    https://github.com/geeksville/AutoWifi
  */
-class AutoWifi {
-    String ssid;
-    String password;
-    bool readPrefs;
+class AutoWifi
+{
+  String ssid;
+  String password;
+  bool readPrefs;
 
 public:
-    AutoWifi();
+  AutoWifi();
 
-    /**
+  /**
        If true we already have wifi settings, if false, you should tell the user we
        will soon be in SmartConfig mode and then call startWifi().
      */
-    bool isProvisioned();
+  bool isProvisioned();
 
-    /**
+  /**
        If wifi has already been proivisoned in EEPROM, setup the wifi and continue boot.
 
        Otherwise stay in smart config mode until the user has provisioned wifi.
 
        Call this _instead_ of WiFi.begin(...)
-     */
-    void startWifi();
 
-    /**
+       return true if we succeeded in the time we were allowed, or false otherwise
+     */
+  bool startWifi(uint32_t timeLimitMsec = 5 * 60 * 1000);
+
+  /**
        Throw away our wifi settings, any future calls to startWifi() will force the
        user to reprovision.
 
        Call this if the user presses your 'completely reset this device' button.
      */
-    void resetProvisioning();
+  void resetProvisioning();
 
-    /**
+  /**
        Call this from your loop() function occasionally.  If we have lost our wifi connection it
        will attemp to reconnect
      */
-    void reconnect();
+  void reconnect();
 
-    String getSSID() {
-        return ssid;
-    }
+  String getSSID()
+  {
+    return ssid;
+  }
 };
