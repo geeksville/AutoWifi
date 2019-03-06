@@ -2,6 +2,11 @@
 
 Making ESP32 wifi setup trivial with Android/iOS helper apps.  5 lines of code and no more hardcoded keys.
 
+Note: This library works, but it depends on the ESP32/TI SmartConfig standard.  That standard has _problems_
+mainly it can't work with mixed 5G/2.4G networks and modern cellphones.  Therefore for all of my new projects
+I'm using [AutoConnect](https://github.com/Hieromon/AutoConnect).  I just discovered AutoConnect, it is quite nice.  You should
+probably use it rather than this library.
+
 # Usage
 
 I poked around on the internet for documentation on the usage of the ESP32 SmartConfig
